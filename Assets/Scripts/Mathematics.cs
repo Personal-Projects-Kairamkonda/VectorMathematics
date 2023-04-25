@@ -1,11 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Mathematics : MonoBehaviour
 {
     public Transform guard;
     public Transform player;
+
+    public Text dotValueText;
+    private float dotValue;
+
+    public Text dotAngleText;
+    private float dotAngle;
 
     private Vector3 vectorDistance;
     private Vector3 vectorUnit;
@@ -14,45 +21,33 @@ public class Mathematics : MonoBehaviour
     Vector3 facingNormal;
     Vector3 distance;
 
-    void Awake()
+
+    void Update()
+    {
+        CalculateDirection(player.position,guard.position);
+        CalculateAngle();
+    }
+
+    void CalculateDirection(Vector3 targetPos, Vector3 startPos)
+    {
+        dotValue = DotProduct.Dot(Vector3.one, DotProduct.distance(targetPos, startPos));
+        dotValueText.text = "Value:" + dotValue.ToString();
+    }
+
+    void CalculateAngle()
     {
         //Vector positions
-        Vector3 guardPos=guard.position;
-        Vector3 guardFacing = transform.right;
+        Vector3 guardPos = guard.position;
+        Vector3 guardFacing = guard.transform.right;
         Vector3 playerPos = player.position;
 
         //normalize the positions
         facingNormal = Vector3.Normalize(guardFacing);
         distance = Vector3.Normalize(playerPos - guardPos);
 
-        //Check angle
-        float angle = Vector3.Angle(distance, facingNormal);
+        dotAngle = DotProduct.DotAngle(distance, facingNormal)*Mathf.Rad2Deg;
+        dotAngleText.text = "Angle:" + dotAngle.ToString();
 
-        float angleAcos = Mathf.Acos(Vector3.Dot(distance, facingNormal));
-        Debug.Log($"Angle between guard and player is {angle}");
-        Debug.Log($"AngleCos between guard and player is {angleAcos}");
-    }
-
-    void MyDotProduct()
-    {
-        float directionFacing = Vector3.Dot(distance, facingNormal);
-        Debug.Log($"Dot product between them is {directionFacing}");
-    }
-
-    void UnitLength()
-    {
-        vectorLength = Vector3.Distance(guard.position, player.position);
-        vectorDistance = Distance(guard, player);
-        vectorUnit = vectorDistance.normalized;
-        Debug.Log($"Distance is { vectorDistance}");
-    }
-
-
-    Vector3 Distance(Transform a, Transform b)
-    {
-        Vector3 dis;
-        dis = a.position - b.position;
-        return dis;
     }
 
     void OnDrawGizmos()
