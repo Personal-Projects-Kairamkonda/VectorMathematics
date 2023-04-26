@@ -7,19 +7,21 @@ public static class DotProduct
        return a.x * b.x + a.y * b.y + a.z * b.z;
     }
 
+    
     public static Vector3 distance(Vector3 a, Vector3 b)
     {
         return new Vector3(a.x - b.x, a.y - b.y);
     }
 
+    // |A|= square root(a*a+b*b)
     public static float DotLength(Vector3 a)
     {
         return Mathf.Sqrt(Dot(a, a));
     }
 
-    //θ = acos([AB]/[|A||B|]).
+    // θ = acos([AB]/[|A||B|]).
     public static float DotAngle(Vector3 a, Vector3 b)
     {
-        return Mathf.Acos(Dot(a, b) / DotLength(a) * DotLength(b));
+        return Mathf.Acos(Dot(a, b) / DotLength(a) * DotLength(b))*Mathf.Rad2Deg;
     }
 }
