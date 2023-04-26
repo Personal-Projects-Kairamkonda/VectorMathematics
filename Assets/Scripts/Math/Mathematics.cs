@@ -25,7 +25,8 @@ public class Mathematics : MonoBehaviour
     void Update()
     {
         CalculateDirection(player.position,guard.position);
-        CalculateAngle();
+        if(Input.GetKeyDown(KeyCode.Space))
+            CalculateAngle();
     }
 
     void CalculateDirection(Vector3 targetPos, Vector3 startPos)
@@ -45,7 +46,7 @@ public class Mathematics : MonoBehaviour
         facingNormal = Vector3.Normalize(guardFacing);
         distance = Vector3.Normalize(playerPos - guardPos);
 
-        dotAngle = DotProduct.DotAngle(distance, facingNormal)*Mathf.Rad2Deg;
+        dotAngle = DotProduct.DotAngle(distance, facingNormal);
         dotAngleText.text = "Angle:" + dotAngle.ToString();
 
     }
