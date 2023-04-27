@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    float timeCounter=0;
+    float radius = 8f;
+    float speed = 0.2f;
+   
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, -Vector3.right * 10+transform.position,1f*Time.deltaTime);
+        timeCounter += Time.deltaTime*speed;
+
+        float x = Mathf.Cos(timeCounter);
+        float y = transform.position.y;
+        float z= Mathf.Sin(timeCounter);
+
+        transform.position = new Vector3(x, y, z)*radius;
     }
 }
